@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#17884a" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
+  <title>PARXO</title>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>PARXO</h1>
+      <p>रेडीमेड गारमेंट्स पर्चा मैनेजर</p>
+    </div>
+    <button id="installBtn" class="ghost" hidden>ऐप इंस्टॉल करें</button>
+  </header>
+
+  <main>
+    <section id="dashboard" class="page active">
+      <div class="stats">
+        <div class="card"><b id="statProducts">0</b><span>कुल प्रोडक्ट</span></div>
+        <div class="card"><b id="statStock">0</b><span>कुल स्टॉक</span></div>
+        <div class="card"><b id="statParchas">0</b><span>कुल पर्चे</span></div>
+        <div class="card"><b id="statSale">₹0</b><span>कुल बिक्री</span></div>
+      </div>
+      <div class="menu">
+        <button data-page="newParcha">🧾<span>नया पर्चा</span></button>
+        <button data-page="products">📦<span>प्रोडक्ट</span></button>
+        <button data-page="history">🕘<span>पुराने पर्चे</span></button>
+        <button data-page="settings">⚙️<span>सेटिंग</span></button>
+      </div>
+    </section>
+
+    <section id="products" class="page">
+      <div class="pageTitle"><h2>प्रोडक्ट</h2><button id="openAddProduct">+ नया जोड़ें</button></div>
+      <input id="productSearch" placeholder="नाम, ब्रांड, साइज से खोजें" />
+      <div id="productList" class="list"></div>
+    </section>
+
+    <section id="newParcha" class="page">
+      <h2>नया पर्चा</h2>
+      <input id="customerName" placeholder="ग्राहक का नाम *" />
+      <input id="customerMobile" placeholder="मोबाइल नंबर" inputmode="numeric" />
+      <button id="chooseProduct">+ प्रोडक्ट जोड़ें</button>
+      <div id="parchaItems" class="list"></div>
+      <textarea id="parchaNote" placeholder="नोट"></textarea>
+      <div class="totalRow">कुल: <b id="grandTotal">₹0</b></div>
+      <button id="saveParcha" class="primary">पर्चा सेव करें</button>
+    </section>
+
+    <section id="history" class="page">
+      <h2>पुराने पर्चे</h2>
+      <input id="historySearch" placeholder="नाम या मोबाइल से खोजें" />
+      <div id="historyList" class="list"></div>
+    </section>
+
+    <section id="settings" class="page">
+      <h2>सेटिंग</h2>
+      <button id="exportData">डेटा बैकअप डाउनलोड करें</button>
+      <label class="fileBtn">बैकअप वापस लाएँ<input id="importData" type="file" accept=".json" hidden /></label>
+      <button id="clearAll" class="danger">सारा डेटा मिटाएँ</button>
+    </section>
+  </main>
+
+  <nav>
+    <button data-page="dashboard">🏠<span>डैशबोर्ड</span></button>
+    <button data-page="products">📦<span>प्रोडक्ट</span></button>
+    <button data-page="newParcha">🧾<span>नया पर्चा</span></button>
+    <button data-page="history">🕘<span>पुराने पर्चे</span></button>
+  </nav>
+
+  <dialog id="productDialog">
+    <form method="dialog" id="productForm">
+      <h3 id="productDialogTitle">नया प्रोडक्ट</h3>
+      <input type="hidden" id="productId" />
+      <label>प्रोडक्ट फोटो<input id="productImage" type="file" accept="image/*" capture="environment" /></label>
+      <img id="imagePreview" class="preview" alt="" />
+      <input id="productName" placeholder="प्रोडक्ट का नाम *" required />
+      <input id="productBrand" placeholder="ब्रांड" />
+      <input id="productCategory" placeholder="कैटेगरी" />
+      <input id="productSize" placeholder="साइज / नंबर" />
+      <input id="productRate" placeholder="रेट" type="number" min="0" />
+      <input id="productStock" placeholder="स्टॉक" type="number" min="0" />
+      <div class="dialogActions">
+        <button value="cancel">रद्द करें</button>
+        <button id="saveProduct" value="default" class="primary">सेव करें</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="pickerDialog">
+    <div>
+      <h3>प्रोडक्ट चुनें</h3>
+      <input id="pickerSearch" placeholder="प्रोडक्ट खोजें" />
+      <div id="pickerList" class="list"></div>
+      <button onclick="document.getElementById('pickerDialog').close()">बंद करें</button>
+    </div>
+  </dialog>
+
+  <dialog id="billDialog">
+    <div id="billContent"></div>
+    <div class="dialogActions">
+      <button id="shareBill">शेयर करें</button>
+      <button onclick="document.getElementById('billDialog').close()">बंद करें</button>
+    </div>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
