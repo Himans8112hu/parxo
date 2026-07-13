@@ -10,13 +10,9 @@
 </head>
 <body>
   <header>
-    <div>
-      <h1>PARXO</h1>
-      <p>रेडीमेड गारमेंट्स पर्चा मैनेजर</p>
-    </div>
+    <div><h1>PARXO</h1><p>रेडीमेड गारमेंट्स पर्चा मैनेजर</p></div>
     <button id="installBtn" class="ghost" hidden>ऐप इंस्टॉल करें</button>
   </header>
-
   <main>
     <section id="dashboard" class="page active">
       <div class="stats">
@@ -35,7 +31,7 @@
 
     <section id="products" class="page">
       <div class="pageTitle"><h2>प्रोडक्ट</h2><button id="openAddProduct">+ नया जोड़ें</button></div>
-      <input id="productSearch" placeholder="नाम, ब्रांड, साइज से खोजें" />
+      <input id="productSearch" placeholder="नाम, ब्रांड, कैटेगरी या साइज से खोजें" />
       <div id="productList" class="list"></div>
     </section>
 
@@ -58,6 +54,7 @@
 
     <section id="settings" class="page">
       <h2>सेटिंग</h2>
+      <button id="restoreSeed">दुकान के सभी डेमो आइटम दोबारा जोड़ें</button>
       <button id="exportData">डेटा बैकअप डाउनलोड करें</button>
       <label class="fileBtn">बैकअप वापस लाएँ<input id="importData" type="file" accept=".json" hidden /></label>
       <button id="clearAll" class="danger">सारा डेटा मिटाएँ</button>
@@ -75,9 +72,7 @@
     <form method="dialog" id="productForm">
       <h3 id="productDialogTitle">नया प्रोडक्ट</h3>
       <input type="hidden" id="productId" />
-      <label>प्रोडक्ट फोटो
-        <input id="productImage" type="file" accept="image/*" />
-      </label>
+      <label>प्रोडक्ट फोटो<input id="productImage" type="file" accept="image/*" /></label>
       <img id="imagePreview" class="preview" alt="" />
       <input id="productName" placeholder="प्रोडक्ट का नाम *" required />
       <input id="productBrand" placeholder="ब्रांड" />
@@ -92,23 +87,8 @@
     </form>
   </dialog>
 
-  <dialog id="pickerDialog">
-    <div>
-      <h3>प्रोडक्ट चुनें</h3>
-      <input id="pickerSearch" placeholder="प्रोडक्ट खोजें" />
-      <div id="pickerList" class="list"></div>
-      <button onclick="document.getElementById('pickerDialog').close()">बंद करें</button>
-    </div>
-  </dialog>
-
-  <dialog id="billDialog">
-    <div id="billContent"></div>
-    <div class="dialogActions">
-      <button id="shareBill">शेयर करें</button>
-      <button onclick="document.getElementById('billDialog').close()">बंद करें</button>
-    </div>
-  </dialog>
-
+  <dialog id="pickerDialog"><div><h3>प्रोडक्ट चुनें</h3><input id="pickerSearch" placeholder="प्रोडक्ट खोजें" /><div id="pickerList" class="list"></div><button onclick="document.getElementById('pickerDialog').close()">बंद करें</button></div></dialog>
+  <dialog id="billDialog"><div id="billContent"></div><div class="dialogActions"><button id="shareBill">शेयर करें</button><button onclick="document.getElementById('billDialog').close()">बंद करें</button></div></dialog>
   <script src="app.js"></script>
 </body>
 </html>
