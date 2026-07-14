@@ -1,7 +1,5 @@
-const CACHE='parxo-v4-all-sizes-40-110';
-const FILES=['./','index.html','style.css','app.js','manifest.json','icon.svg',
-'images/lux-venus.jpg','images/rupa-jon.jpg','images/young-india.jpg','images/macho-sporto.jpg',
-'images/dixcy-scott.jpg','images/lux-cozi.jpg','images/commander.jpg','images/kids-shorty.jpg','images/gold.jpg'];
+const CACHE='parxo-v6-root-images';
+const FILES=['./','index.html','style.css','app.js','manifest.json','icon.svg','commander-inner-elastic.jpg','commander-plain-long-trunk.jpg','deeco-shorty-kids.jpg','dixcy-scott-cross-trunk.jpg','dixcy-scott-designer-vest.jpg','dixcy-scott-replay-brief.jpg','essdee-flexi-trunks.jpg','lux-cozi-fine-long-plain.jpg','lux-cozi-xylo-333-vest.jpg','lux-nitro-long-trunk.jpg','lux-venus-rn-vest.jpg','lux-xylo-888-vest.jpg','macho-sporto-long-trunk.jpg','macho-sporto-smart-cut-brief.jpg','young-india-glider-mini-trunk.jpg','young-india-premium-vest.jpg','young-india-rib-drawer.jpg'];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES)))});
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',e=>{if(e.request.mode==='navigate'){e.respondWith(fetch(e.request).catch(()=>caches.match('index.html')));return;}e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request)))});
