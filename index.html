@@ -7,6 +7,9 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="style.css" />
   <title>PARXO</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js" defer></script>
 </head>
 <body>
   <header>
@@ -15,33 +18,67 @@
   </header>
   <main>
     <section id="dashboard" class="page active">
+      <div id="lowStockBanner" class="lowStockBanner" hidden></div>
       <div class="stats">
         <div class="card"><b id="statProducts">0</b><span>कुल प्रोडक्ट</span></div>
         <div class="card"><b id="statStock">0</b><span>कुल स्टॉक</span></div>
         <div class="card"><b id="statParchas">0</b><span>कुल पर्चे</span></div>
         <div class="card"><b id="statSale">₹0</b><span>कुल बिक्री</span></div>
+        <div class="card"><b id="statToday">₹0</b><span>आज की बिक्री</span></div>
+        <div class="card"><b id="statProfit">₹0</b><span>कुल मुनाफ़ा</span></div>
+        <div class="card"><b id="statStockValue">₹0</b><span>स्टॉक की कीमत</span></div>
+        <div class="card"><b id="statLowStock">0</b><span>कम स्टॉक</span></div>
+        <div class="card"><b id="statOutStock">0</b><span>स्टॉक खत्म</span></div>
       </div>
       <div class="menu">
         <button data-page="newParcha">🧾<span>नया पर्चा</span></button>
         <button data-page="products">📦<span>प्रोडक्ट</span></button>
         <button data-page="history">🕘<span>पुराने पर्चे</span></button>
         <button data-page="settings">⚙️<span>सेटिंग</span></button>
+        <button onclick="openUdhar()">🤝<span>उधार खाता</span></button>
+        <button onclick="showProfitReport()">📈<span>प्रॉफिट रिपोर्ट</span></button>
+      </div>
+      <div class="pageTitle" style="margin-top:16px"><h2>बिक्री रिपोर्ट</h2></div>
+      <div class="menu">
+        <button onclick="showReport('day')">📅<span>रोज़ाना</span></button>
+        <button onclick="showReport('week')">🗓️<span>साप्ताहिक</span></button>
+        <button onclick="showReport('month')">📆<span>मासिक</span></button>
+        <button onclick="showReport('year')">🗂️<span>सालाना</span></button>
       </div>
     </section>
 
     <section id="products" class="page">
       <div class="pageTitle"><h2>प्रोडक्ट</h2><button id="openAddProduct">+ नया जोड़ें</button></div>
       <input id="productSearch" placeholder="नाम, ब्रांड, कैटेगरी या साइज से खोजें" />
+      <div class="filterRow">
+        <select id="filterCategory"><option value="">सभी कैटेगरी</option></select>
+        <select id="filterBrand"><option value="">सभी ब्रांड</option></select>
+      </div>
+      <div class="menu" style="grid-template-columns:1fr 1fr 1fr;margin-bottom:10px">
+        <button onclick="exportProductsExcel()">📊<span>Excel</span></button>
+        <button onclick="exportSalesExcel()">🧾<span>Sales Excel</span></button>
+        <button onclick="exportCustomersExcel()">👥<span>Customers Excel</span></button>
+      </div>
       <div id="productList" class="list"></div>
     </section>
 
     <section id="newParcha" class="page">
       <h2>नया पर्चा</h2>
+      <input type="hidden" id="editingBillId" value="" />
       <input id="customerName" placeholder="ग्राहक का नाम *" />
       <input id="customerMobile" placeholder="मोबाइल नंबर" inputmode="numeric" />
-      <button id="chooseProduct">+ प्रोडक्ट जोड़ें</button>
+      <div class="filterRow">
+        <button id="chooseProduct" style="margin:0">+ प्रोडक्ट जोड़ें</button>
+        <button onclick="openScanner('search')" style="margin:0">📷 स्कैन करें</button>
+      </div>
       <div id="parchaItems" class="list"></div>
       <textarea id="parchaNote" placeholder="नोट"></textarea>
+      <label class="fieldLabel">भुगतान की स्थिति</label>
+      <select id="paymentStatus">
+        <option value="paid">पूरा भुगतान (Paid)</option>
+        <option value="udhar">उधार (Udhar)</option>
+      </select>
+      <input id="amountPaid" type="number" min="0" placeholder="कितनी राशि अभी जमा हुई (उधार होने पर)" />
       <div class="totalRow">कुल: <b id="grandTotal">₹0</b></div>
       <button id="saveParcha" class="primary">पर्चा सेव करें</button>
     </section>
@@ -55,8 +92,11 @@
     <section id="settings" class="page">
       <h2>सेटिंग</h2>
       <button id="restoreSeed">दुकान के सभी डेमो आइटम दोबारा जोड़ें</button>
-      <button id="exportData">डेटा बैकअप डाउनलोड करें</button>
+      <button id="exportData">डेटा बैकअप डाउनलोड करें (Manual/Cloud)</button>
       <label class="fileBtn">बैकअप वापस लाएँ<input id="importData" type="file" accept=".json" hidden /></label>
+      <button onclick="listAutoBackups()">Local Auto-Backup देखें/Restore करें</button>
+      <button id="setPinBtn">App Lock (PIN) सेट/हटाएँ</button>
+      <p class="muted" style="margin:6px 0 14px">ध्यान दें: App Lock सिर्फ आसान झलक रोकने के लिए है, यह असली security नहीं है — ब्राउज़र data कोई भी देख सकता है। "Cloud Backup" का मतलब है डाउनलोड की गई फ़ाइल को आप खुद Google Drive/WhatsApp पर सुरक्षित रखें; अपने आप cloud sync नहीं होता क्योंकि इस app का कोई सर्वर नहीं है।</p>
       <button id="clearAll" class="danger">सारा डेटा मिटाएँ</button>
     </section>
   </main>
@@ -78,8 +118,13 @@
       <input id="productBrand" placeholder="ब्रांड" />
       <input id="productCategory" placeholder="कैटेगरी" />
       <input id="productSize" placeholder="साइज / नंबर" />
-      <input id="productRate" placeholder="रेट" type="number" min="0" />
+      <input id="productRate" placeholder="रेट (बिक्री मूल्य)" type="number" min="0" />
+      <input id="productCostPrice" placeholder="Cost Price (खरीद मूल्य) — Profit रिपोर्ट के लिए" type="number" min="0" />
       <input id="productStock" placeholder="स्टॉक" type="number" min="0" />
+      <div class="filterRow">
+        <input id="productBarcode" placeholder="बारकोड / QR कोड (वैकल्पिक)" style="margin:0" />
+        <button type="button" onclick="openScanner('product')" style="margin:0">📷 स्कैन</button>
+      </div>
       <div class="dialogActions">
         <button value="cancel">रद्द करें</button>
         <button id="saveProduct" value="default" class="primary">सेव करें</button>
@@ -88,7 +133,67 @@
   </dialog>
 
   <dialog id="pickerDialog"><div><h3>प्रोडक्ट चुनें</h3><input id="pickerSearch" placeholder="प्रोडक्ट खोजें" /><div id="pickerList" class="list"></div><button onclick="document.getElementById('pickerDialog').close()">बंद करें</button></div></dialog>
-  <dialog id="billDialog"><div id="billContent"></div><div class="dialogActions"><button id="shareBill">शेयर करें</button><button onclick="document.getElementById('billDialog').close()">बंद करें</button></div></dialog>
+  <dialog id="billDialog">
+    <div id="billContent"></div>
+    <div class="dialogActions" style="flex-wrap:wrap">
+      <button id="shareBill">शेयर करें</button>
+      <button onclick="shareBillWhatsapp()">WhatsApp</button>
+      <button onclick="printBill()">Print</button>
+      <button onclick="downloadBillPdf()">PDF Download</button>
+      <button onclick="document.getElementById('billDialog').close()">बंद करें</button>
+    </div>
+  </dialog>
+
+  <dialog id="reportsDialog">
+    <div>
+      <h3 id="reportTitle">बिक्री रिपोर्ट</h3>
+      <canvas id="reportChart" style="width:100%;height:220px"></canvas>
+      <p id="reportSummary" class="muted"></p>
+      <button onclick="document.getElementById('reportsDialog').close()">बंद करें</button>
+    </div>
+  </dialog>
+
+  <dialog id="profitDialog">
+    <div>
+      <h3>Profit / Loss रिपोर्ट</h3>
+      <div id="profitContent"></div>
+      <button onclick="document.getElementById('profitDialog').close()">बंद करें</button>
+    </div>
+  </dialog>
+
+  <dialog id="udharDialog">
+    <div>
+      <h3>उधार खाता (Customer Credit)</h3>
+      <div id="udharList" class="list"></div>
+      <button onclick="document.getElementById('udharDialog').close()">बंद करें</button>
+    </div>
+  </dialog>
+
+  <dialog id="autoBackupDialog">
+    <div>
+      <h3>Local Auto-Backup</h3>
+      <div id="autoBackupList" class="list"></div>
+      <button onclick="document.getElementById('autoBackupDialog').close()">बंद करें</button>
+    </div>
+  </dialog>
+
+  <dialog id="scannerDialog">
+    <div>
+      <h3>बारकोड / QR स्कैन करें</h3>
+      <video id="scannerVideo" playsinline style="width:100%;border-radius:10px;background:#000"></video>
+      <canvas id="scannerCanvas" hidden></canvas>
+      <button id="closeScannerBtn" onclick="stopScanner()">बंद करें</button>
+    </div>
+  </dialog>
+
+  <div id="lockOverlay" class="lockOverlay">
+    <div class="lockBox">
+      <h2>🔒 PARXO लॉक है</h2>
+      <input id="lockPinInput" type="password" inputmode="numeric" placeholder="PIN डालें" />
+      <button id="unlockBtn" class="primary">अनलॉक करें</button>
+    </div>
+  </div>
+
   <script src="app.js"></script>
 </body>
 </html>
