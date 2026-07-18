@@ -183,6 +183,7 @@ if($('#filterBrand')) $('#filterBrand').onchange=renderProducts;
 $('#openAddProduct').onclick=()=>openProduct();
 
 function openProduct(p={}){
+ window.__parxoCroppedImage=''; window.__parxoImageScope='product';
  $('#productDialogTitle').textContent=p.id?'प्रोडक्ट बदलें':'नया प्रोडक्ट';
  $('#productId').value=p.id||'';$('#productName').value=p.name||'';$('#productBrand').value=p.brand||'';
  $('#productCategory').value=p.category||'';$('#productSize').value=p.size||'';$('#productRate').value=p.rate||'';
@@ -195,15 +196,24 @@ function openProduct(p={}){
 window.editProduct=id=>openProduct(db.products.find(p=>p.id===id));
 window.deleteProduct=id=>{if(confirm('यह प्रोडक्ट हटाएँ?')){db.products=db.products.filter(p=>p.id!==id);save();renderProducts();}};
 function fileToDataURL(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file);});}
-$('#productImage').onchange=async e=>{if(e.target.files[0]){const d=await fileToDataURL(e.target.files[0]);$('#imagePreview').src=d;$('#imagePreview').style.display='block';}};
+// v7 crop workflow handles product image selection.
 $('#saveProduct').onclick=async e=>{
  e.preventDefault();const name=$('#productName').value.trim();if(!name)return alert('प्रोडक्ट का नाम भरें');
  const id=$('#productId').value||crypto.randomUUID();const old=db.products.find(p=>p.id===id)||{};
- let image=old.image||'';if($('#productImage').files[0])image=await fileToDataURL($('#productImage').files[0]);
+ let image=window.__parxoCroppedImage||old.image||'';
  const p={id,name,brand:$('#productBrand').value.trim(),category:$('#productCategory').value.trim(),size:$('#productSize').value.trim(),rate:+$('#productRate').value||0,stock:+$('#productStock').value||0,image,
   costPrice: $('#productCostPrice') ? (+$('#productCostPrice').value||0) : (old.costPrice||0),
   barcode: $('#productBarcode') ? $('#productBarcode').value.trim() : (old.barcode||'')};
  const i=db.products.findIndex(x=>x.id===id);if(i>=0)db.products[i]=p;else db.products.push(p);
+ if(window.__parxoCroppedImage){
+  const scope=window.__parxoImageScope||'product';
+  db.products.forEach(x=>{
+   if(scope==='single' && x.id===id) x.image=image;
+   else if(scope==='product' && x.name===name) x.image=image;
+   else if(scope==='brand' && p.brand && x.brand===p.brand) x.image=image;
+  });
+ }
+ window.__parxoCroppedImage='';window.__parxoImageScope='product';
  save();$('#productDialog').close();renderProducts();
 };
 

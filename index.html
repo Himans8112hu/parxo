@@ -7,8 +7,8 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="style.css" />
   <title>PARXO</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
+  
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js" defer></script>
 </head>
 <body>
@@ -36,14 +36,14 @@
         <button data-page="history">🕘<span>पुराने पर्चे</span></button>
         <button data-page="settings">⚙️<span>सेटिंग</span></button>
         <button onclick="openUdhar()">🤝<span>उधार खाता</span></button>
-        <button onclick="showProfitReport()">📈<span>प्रॉफिट रिपोर्ट</span></button>
+        <button id="profitReportBtn" type="button">📈<span>प्रॉफिट रिपोर्ट</span></button>
       </div>
       <div class="pageTitle" style="margin-top:16px"><h2>बिक्री रिपोर्ट</h2></div>
       <div class="menu">
-        <button onclick="showReport('day')">📅<span>रोज़ाना</span></button>
-        <button onclick="showReport('week')">🗓️<span>साप्ताहिक</span></button>
-        <button onclick="showReport('month')">📆<span>मासिक</span></button>
-        <button onclick="showReport('year')">🗂️<span>सालाना</span></button>
+        <button id="dailyReportBtn" type="button">📅<span>रोज़ाना</span></button>
+        <button id="weeklyReportBtn" type="button">🗓️<span>साप्ताहिक</span></button>
+        <button id="monthlyReportBtn" type="button">📆<span>मासिक</span></button>
+        <button id="yearlyReportBtn" type="button">🗂️<span>सालाना</span></button>
       </div>
     </section>
 
@@ -55,9 +55,9 @@
         <select id="filterBrand"><option value="">सभी ब्रांड</option></select>
       </div>
       <div class="menu" style="grid-template-columns:1fr 1fr 1fr;margin-bottom:10px">
-        <button onclick="exportProductsExcel()">📊<span>Excel</span></button>
-        <button onclick="exportSalesExcel()">🧾<span>Sales Excel</span></button>
-        <button onclick="exportCustomersExcel()">👥<span>Customers Excel</span></button>
+        <button id="productsExcelBtn" type="button">📊<span>Excel</span></button>
+        <button id="salesExcelBtn" type="button">🧾<span>Sales Excel</span></button>
+        <button id="customersExcelBtn" type="button">👥<span>Customers Excel</span></button>
       </div>
       <div id="productList" class="list"></div>
     </section>
@@ -69,7 +69,7 @@
       <input id="customerMobile" placeholder="मोबाइल नंबर" inputmode="numeric" />
       <div class="filterRow">
         <button id="chooseProduct" style="margin:0">+ प्रोडक्ट जोड़ें</button>
-        <button onclick="openScanner('search')" style="margin:0">📷 स्कैन करें</button>
+        <button id="parchaScanBtn" type="button" style="margin:0">📷 स्कैन करें</button>
       </div>
       <div id="parchaItems" class="list"></div>
       <textarea id="parchaNote" placeholder="नोट"></textarea>
@@ -123,7 +123,7 @@
       <input id="productStock" placeholder="स्टॉक" type="number" min="0" />
       <div class="filterRow">
         <input id="productBarcode" placeholder="बारकोड / QR कोड (वैकल्पिक)" style="margin:0" />
-        <button type="button" onclick="openScanner('product')" style="margin:0">📷 स्कैन</button>
+        <button type="button" id="productScanBtn" type="button" style="margin:0">📷 स्कैन</button>
       </div>
       <div class="dialogActions">
         <button value="cancel">रद्द करें</button>
@@ -137,10 +137,10 @@
     <div id="billContent"></div>
     <div class="dialogActions" style="flex-wrap:wrap">
       <button id="shareBill">शेयर करें</button>
-      <button onclick="shareBillWhatsapp()">WhatsApp</button>
-      <button onclick="printBill()">Print</button>
-      <button onclick="downloadBillPdf()">PDF Download</button>
-      <button onclick="document.getElementById('billDialog').close()">बंद करें</button>
+      <button id="whatsappBill" type="button">WhatsApp</button>
+      <button id="printBill" type="button">Print</button>
+      <button id="downloadPdf" type="button">PDF Download</button>
+      <button id="closeBill" type="button">बंद करें</button>
     </div>
   </dialog>
 
@@ -177,6 +177,22 @@
     </div>
   </dialog>
 
+
+  <dialog id="cropDialog" class="cropDialog">
+    <div>
+      <h3>फोटो काटें (1:1)</h3>
+      <div id="cropViewport" class="cropViewport"><img id="cropImage" alt="Crop preview" /><div class="cropGuide"></div></div>
+      <label class="fieldLabel">ज़ूम</label><input id="cropZoom" type="range" min="1" max="3" step="0.01" value="1" />
+      <p class="muted">फोटो को उंगली से खिसकाएँ और ज़ूम करें।</p>
+      <fieldset class="scopeBox"><legend>फोटो कहाँ लगानी है?</legend>
+        <label><input type="radio" name="imageScope" value="single"> केवल इस product/size पर</label>
+        <label><input type="radio" name="imageScope" value="product" checked> इसी product के सभी sizes पर</label>
+        <label><input type="radio" name="imageScope" value="brand"> इसी brand के सभी products पर</label>
+      </fieldset>
+      <div class="dialogActions"><button id="cancelCrop" type="button">रद्द करें</button><button id="applyCrop" type="button" class="primary">फोटो लगाएँ</button></div>
+    </div>
+  </dialog>
+
   <dialog id="scannerDialog">
     <div>
       <h3>बारकोड / QR स्कैन करें</h3>
@@ -195,5 +211,6 @@
   </div>
 
   <script src="app.js"></script>
+  <script src="fixes.js"></script>
 </body>
 </html>
