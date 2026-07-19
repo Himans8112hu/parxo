@@ -1,4 +1,4 @@
-const CACHE='parxo-v16-final-product-images';
+const CACHE='parxo-v17-restore-lux-venus';
 const FILES=['./','index.html','style.css','app.js','fixes.js','language.js','manifest.json','icon.svg','dp-lux-nitro-dynamic-long-trunk.png','dp-commander-outer-elastic.png','dp-rupa-jon-rn-white-vest.png','dp-essdee-flexi-trunks.png','dp-lux-cozi-xylo-333-gym-vest.png','dp-macho-sporto-smart-cut-brief.png','dp-lux-xylo-888-gym-vest.png','dp-macho-sporto-long-trunk.png','dp-lux-cozi-fine-long-plain.png','dp-dixcy-scott-replay-brief.png','dp-commander-inner-elastic.png','dp-young-india-glider-mini-trunk.png','dp-rupa-jon-amazing-panties.png','dp-young-india-premium-vest.png',
 
 'young-india-rib-drawer.jpg',
@@ -11,7 +11,7 @@ const FILES=['./','index.html','style.css','app.js','fixes.js','language.js','ma
 // to sirf ye teen features (PDF, Excel, Scanner) tab tak kaam nahi karengi, baaki poora app chalega.
 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',
 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js',
-'https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js','dp-dixcy-scott-cross-trunk.jpg','dp-dixcy-scott-designer-vest.jpg','dp-rupa-jon-aishwarya-long-panty.jpg'];
+'https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js','dp-dixcy-scott-cross-trunk.jpg','dp-dixcy-scott-designer-vest.jpg','dp-rupa-jon-aishwarya-long-panty.jpg','dp-lux-venus-rn-white-vest.jpg'];
 self.addEventListener('install',e=>{
  self.skipWaiting();
  e.waitUntil(caches.open(CACHE).then(async c=>{
