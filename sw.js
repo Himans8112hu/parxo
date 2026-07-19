@@ -1,11 +1,11 @@
-const CACHE='parxo-v11-language-freeze-fix';
-const FILES=['./','index.html','style.css','app.js','fixes.js','language.js','manifest.json','icon.svg',
-'lux-venus.jpg','lux-venus-rn-vest.jpg','rupa-jon.jpg','young-india.jpg','young-india-premium-vest.jpg',
-'young-india-glider-mini-trunk.jpg','young-india-rib-drawer.jpg','macho-sporto.jpg','macho-sporto-long-trunk.jpg',
-'dixcy-scott.jpg','dixcy-scott-designer-vest.jpg','dixcy-scott-replay-brief.jpg',
-'dixcy-scott-cross-trunk.jpg','lux-cozi.jpg','lux-cozi-fine-long-plain.jpg','lux-cozi-xylo-333-vest.jpg',
-'lux-xylo-888-vest.jpg','lux-nitro-long-trunk.jpg','commander.jpg','commander-plain-long-trunk.jpg',
-'commander-inner-elastic.jpg','kids-shorty.jpg','deeco-shorty-kids.jpg','gold.jpg','essdee-flexi-trunks.jpg',
+const CACHE='parxo-v15-no-duplicate-images';
+const FILES=['./','index.html','style.css','app.js','fixes.js','language.js','manifest.json','icon.svg','dp-lux-nitro-dynamic-long-trunk.png','dp-commander-outer-elastic.png','dp-rupa-jon-rn-white-vest.png','dp-essdee-flexi-trunks.png','dp-lux-cozi-xylo-333-gym-vest.png','dp-macho-sporto-smart-cut-brief.png','dp-lux-xylo-888-gym-vest.png','dp-macho-sporto-long-trunk.png','dp-lux-cozi-fine-long-plain.png','dp-dixcy-scott-replay-brief.png','dp-commander-inner-elastic.png','dp-young-india-glider-mini-trunk.png','dp-rupa-jon-amazing-panties.png','dp-young-india-premium-vest.png',
+
+'young-india-rib-drawer.jpg',
+
+
+'commander-plain-long-trunk.jpg',
+
 // External libraries used by PDF / Excel / Barcode features. Precached best-effort so these
 // keep working offline after the first successful online load; agar pehli baar internet na ho
 // to sirf ye teen features (PDF, Excel, Scanner) tab tak kaam nahi karengi, baaki poora app chalega.

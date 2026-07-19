@@ -144,7 +144,22 @@
     </form>
   </dialog>
 
-  <dialog id="pickerDialog"><div><h3>प्रोडक्ट चुनें</h3><input id="pickerSearch" placeholder="प्रोडक्ट खोजें" /><div id="pickerList" class="list"></div><button onclick="document.getElementById('pickerDialog').close()">बंद करें</button></div></dialog>
+  <dialog id="pickerDialog">
+    <div>
+      <h3>प्रोडक्ट चुनें</h3>
+      <input id="pickerSearch" placeholder="प्रोडक्ट खोजें" />
+      <div class="filterRow pickerFilters">
+        <select id="pickerCategoryFilter" aria-label="कैटेगरी चुनें">
+          <option value="">सभी कैटेगरी</option>
+        </select>
+        <select id="pickerBrandFilter" aria-label="ब्रांड चुनें">
+          <option value="">सभी ब्रांड</option>
+        </select>
+      </div>
+      <div id="pickerList" class="list"></div>
+      <button id="closePickerBtn" type="button">बंद करें</button>
+    </div>
+  </dialog>
   <dialog id="billDialog">
     <div id="billContent"></div>
     <div class="dialogActions" style="flex-wrap:wrap">

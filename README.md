@@ -78,3 +78,21 @@ Header और Settings में भाषा बदलने का विक�
 - Report charts are display-only; they are not text boxes, so the phone keyboard is not expected.
 - Udhar Khata now uses a stable click listener and always opens its dialog, including when there is no outstanding credit.
 - Any old negative stock values are normalized to 0 on app startup.
+
+
+## Correct DP Mapping Update
+- Uploaded circular product images are mapped by exact product name.
+- Five requested product families were removed from seed data and existing localStorage catalog: Lux Venus RN White Vest, Dixcy Scott Designer Vest, Dixcy Scott Cross Trunk, Gold Premium Drawer, Deeco Shorty Kids Wear.
+- Essdee Print Vest was corrected to Essdee Flexi Trunks because the supplied packaging image is a trunk, not a vest.
+- Existing bills and retained product rate/stock values are preserved.
+
+
+## Product Chooser Filters
+- नया पर्चा बनाते समय “प्रोडक्ट चुनें” popup में Category और Brand dropdown जोड़े गए।
+- Search, Category और Brand तीनों filters एक साथ काम करते हैं।
+- Product list में Brand, Category, Size और Rate दिखाई देते हैं।
+
+
+## Duplicate Image Cleanup
+- पुरानी और नई दोनों copies में से केवल वही product image files रखी गई हैं जिन्हें app.js वास्तव में उपयोग करता है।
+- Service Worker cache list भी साफ कर दी गई है।

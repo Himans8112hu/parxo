@@ -177,3 +177,13 @@ header{gap:12px}.headerActions{display:flex;align-items:center;gap:8px;flex-wrap
 .reportEmptyState b{font-size:18px;color:#176f43}
 .reportDetails{display:grid;gap:7px;margin-top:10px;max-height:190px;overflow:auto}
 .reportDetailRow{display:flex;justify-content:space-between;gap:14px;padding:9px 11px;border-radius:10px;background:#f2f8f4}
+
+
+/* Product chooser category/brand filters */
+.pickerFilters{margin-top:-2px}
+.pickerFilters select{min-width:0;flex:1}
+#pickerDialog>div{width:min(94vw,620px)}
+#pickerList{max-height:60vh;overflow:auto}
+@media(max-width:520px){
+  .pickerFilters{display:grid;grid-template-columns:1fr 1fr}
+}
