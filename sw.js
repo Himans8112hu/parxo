@@ -1,5 +1,5 @@
-const CACHE='parxo-v7-reliable-fixes';
-const FILES=['./','index.html','style.css','app.js','fixes.js','manifest.json','icon.svg',
+const CACHE='parxo-v10-report-udhar-fix';
+const FILES=['./','index.html','style.css','app.js','fixes.js','language.js','manifest.json','icon.svg',
 'lux-venus.jpg','lux-venus-rn-vest.jpg','rupa-jon.jpg','young-india.jpg','young-india-premium-vest.jpg',
 'young-india-glider-mini-trunk.jpg','young-india-rib-drawer.jpg','macho-sporto.jpg','macho-sporto-long-trunk.jpg',
 'dixcy-scott.jpg','dixcy-scott-designer-vest.jpg','dixcy-scott-replay-brief.jpg',

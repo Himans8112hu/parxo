@@ -14,7 +14,14 @@
 <body>
   <header>
     <div><h1>PARXO</h1><p>रेडीमेड गारमेंट्स पर्चा मैनेजर</p></div>
-    <button id="installBtn" class="ghost" hidden>ऐप इंस्टॉल करें</button>
+    <div class="headerActions">
+      <label class="languageBox" for="languageSelect"><span>भाषा</span>
+        <select id="languageSelect" aria-label="भाषा चुनें">
+          <option value="hi">हिंदी</option><option value="en">English</option>
+        </select>
+      </label>
+      <button id="installBtn" class="ghost" hidden>ऐप इंस्टॉल करें</button>
+    </div>
   </header>
   <main>
     <section id="dashboard" class="page active">
@@ -35,7 +42,7 @@
         <button data-page="products">📦<span>प्रोडक्ट</span></button>
         <button data-page="history">🕘<span>पुराने पर्चे</span></button>
         <button data-page="settings">⚙️<span>सेटिंग</span></button>
-        <button onclick="openUdhar()">🤝<span>उधार खाता</span></button>
+        <button id="udharBtn" type="button">🤝<span>उधार खाता</span></button>
         <button id="profitReportBtn" type="button">📈<span>प्रॉफिट रिपोर्ट</span></button>
       </div>
       <div class="pageTitle" style="margin-top:16px"><h2>बिक्री रिपोर्ट</h2></div>
@@ -91,6 +98,11 @@
 
     <section id="settings" class="page">
       <h2>सेटिंग</h2>
+      <div class="settingsLanguageCard">
+        <label for="settingsLanguageSelect"><b>ऐप की भाषा</b></label>
+        <select id="settingsLanguageSelect"><option value="hi">हिंदी</option><option value="en">English</option></select>
+        <p class="muted">भाषा बदलते ही पूरा ऐप हिंदी या English में बदल जाएगा।</p>
+      </div>
       <button id="restoreSeed">दुकान के सभी डेमो आइटम दोबारा जोड़ें</button>
       <button id="exportData">डेटा बैकअप डाउनलोड करें (Manual/Cloud)</button>
       <label class="fileBtn">बैकअप वापस लाएँ<input id="importData" type="file" accept=".json" hidden /></label>
@@ -147,9 +159,15 @@
   <dialog id="reportsDialog">
     <div>
       <h3 id="reportTitle">बिक्री रिपोर्ट</h3>
+      <div id="reportEmptyState" class="reportEmptyState" hidden>
+        <div class="reportEmptyIcon">📊</div>
+        <b>इस अवधि में कोई बिक्री नहीं है</b>
+        <span>पर्चा सेव होने के बाद रिपोर्ट यहाँ दिखाई देगी।</span>
+      </div>
       <canvas id="reportChart" style="width:100%;height:220px"></canvas>
+      <div id="reportDetails" class="reportDetails"></div>
       <p id="reportSummary" class="muted"></p>
-      <button onclick="document.getElementById('reportsDialog').close()">बंद करें</button>
+      <button id="closeReportsBtn" type="button">बंद करें</button>
     </div>
   </dialog>
 
@@ -212,5 +230,6 @@
 
   <script src="app.js"></script>
   <script src="fixes.js"></script>
+  <script src="language.js"></script>
 </body>
 </html>

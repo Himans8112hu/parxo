@@ -48,3 +48,121 @@ function jpegToPdf(dataUrl,w,h){const bin=atob(dataUrl.split(',')[1]),img=new Ui
 window.downloadBillPdf=()=>{if(!currentBill)return alert('पहले पर्चा खोलें।');try{const c=makeBillCanvas(currentBill),blob=jpegToPdf(c.toDataURL('image/jpeg',.9),c.width,c.height),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=(currentBill.invoiceNo||('PARXO-'+currentBill.number))+'.pdf';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}catch(e){console.error(e);alert('PDF नहीं बन सकी: '+e.message)}};
 bind('whatsappBill',window.shareBillWhatsapp);bind('printBill',window.printBill);bind('downloadPdf',window.downloadBillPdf);bind('closeBill',()=>{const d=byId('billDialog');if(d?.open)d.close()});
 })();
+
+
+// ===== PARXO report + credit ledger reliability patch =====
+(function(){
+  const $id = id => document.getElementById(id);
+
+  function normalizeNegativeStock(){
+    try{
+      if(!db || !Array.isArray(db.products)) return;
+      let changed=false;
+      for(const product of db.products){
+        const stock=Number(product.stock);
+        if(!Number.isFinite(stock) || stock < 0){
+          product.stock=0;
+          changed=true;
+        }
+      }
+      if(changed){
+        if(typeof save === 'function') save();
+        if(typeof renderProducts === 'function') renderProducts();
+        if(typeof updateStats === 'function') updateStats();
+      }
+    }catch(error){
+      console.warn('Stock normalization skipped:', error);
+    }
+  }
+
+  function bindReliableButtons(){
+    const udharButton=$id('udharBtn');
+    if(udharButton && !udharButton.dataset.parxoBound){
+      udharButton.dataset.parxoBound='1';
+      udharButton.addEventListener('click', function(event){
+        event.preventDefault();
+        event.stopPropagation();
+        try{
+          if(typeof window.openUdhar !== 'function'){
+            throw new Error('उधार खाता function उपलब्ध नहीं है');
+          }
+          window.openUdhar();
+        }catch(error){
+          console.error(error);
+          alert('उधार खाता नहीं खुल सका: '+error.message);
+        }
+      });
+    }
+
+    const closeReports=$id('closeReportsBtn');
+    if(closeReports && !closeReports.dataset.parxoBound){
+      closeReports.dataset.parxoBound='1';
+      closeReports.addEventListener('click', function(){
+        const dialog=$id('reportsDialog');
+        if(dialog?.open) dialog.close();
+      });
+    }
+  }
+
+  function makeReadableReport(period){
+    if(typeof groupSales !== 'function') return;
+    const data=groupSales(period);
+    const keys=Object.keys(data).sort();
+    const canvas=$id('reportChart');
+    const empty=$id('reportEmptyState');
+    const details=$id('reportDetails');
+    const summary=$id('reportSummary');
+    const title=$id('reportTitle');
+    const titleMap={day:'रोज़ाना',week:'साप्ताहिक',month:'मासिक',year:'सालाना'};
+
+    if(title) title.textContent=(titleMap[period]||'बिक्री')+' बिक्री रिपोर्ट';
+
+    if(!keys.length){
+      if(canvas) canvas.hidden=true;
+      if(empty) empty.hidden=false;
+      if(details) details.innerHTML='';
+      if(summary) summary.innerHTML='कुल बिक्री: <b>₹0</b>';
+    }else{
+      if(canvas){
+        canvas.hidden=false;
+        if(typeof drawBarChart === 'function') drawBarChart(canvas,data);
+      }
+      if(empty) empty.hidden=true;
+      if(details){
+        details.innerHTML=keys.slice(-12).reverse().map(key=>
+          `<div class="reportDetailRow"><span>${escapeHtml(key)}</span><b>₹${Number(data[key]||0).toFixed(0)}</b></div>`
+        ).join('');
+      }
+      const total=Object.values(data).reduce((a,b)=>a+(Number(b)||0),0);
+      if(summary) summary.innerHTML=`चार्ट में दिख रही कुल बिक्री: <b>₹${total.toFixed(0)}</b>`;
+    }
+
+    const dialog=$id('reportsDialog');
+    if(dialog && !dialog.open) dialog.showModal();
+  }
+
+  // Override only the report presentation. Existing grouping and saved data stay untouched.
+  window.showReport = makeReadableReport;
+
+  document.addEventListener('DOMContentLoaded', function(){
+    normalizeNegativeStock();
+    bindReliableButtons();
+
+    const bindings = {
+      dailyReportBtn:'day',
+      weeklyReportBtn:'week',
+      monthlyReportBtn:'month',
+      yearlyReportBtn:'year'
+    };
+    for(const [id,period] of Object.entries(bindings)){
+      const button=$id(id);
+      if(button && !button.dataset.parxoReportBound){
+        button.dataset.parxoReportBound='1';
+        button.addEventListener('click', function(event){
+          event.preventDefault();
+          makeReadableReport(period);
+        });
+      }
+    }
+  });
+})();

@@ -147,3 +147,33 @@ button{touch-action:manipulation;position:relative;z-index:1}
 .scopeBox label{display:block;padding:7px 2px;font-size:14px}.scopeBox input{width:auto;margin:0 8px 0 0}
 #scannerDialog video{min-height:240px}
 @media print{#billDialog{display:block!important;position:absolute!important;inset:0!important;width:100%!important;max-width:none!important;height:auto!important;margin:0!important;padding:20px!important}}
+
+/* PARXO bilingual language switch */
+header{gap:12px}.headerActions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.languageBox{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.16);padding:7px 9px;border-radius:12px;font-weight:700;color:#fff}
+.languageBox select{margin:0;width:auto;min-width:92px;padding:8px 10px;border:1px solid rgba(255,255,255,.55);border-radius:9px;background:#fff;color:#176f43;font-weight:700}
+.settingsLanguageCard{padding:14px;margin:8px 0 14px;border:1px solid #d9e7df;border-radius:14px;background:#f3fbf6}
+.settingsLanguageCard select{margin:9px 0 5px}
+@media(max-width:520px){header{align-items:flex-start}header h1{font-size:30px}.languageBox{padding:6px 8px}.languageBox span{display:none}.languageBox select{min-width:86px;padding:7px 8px}}
+
+
+/* ===== Reports and credit ledger usability fix ===== */
+.reportEmptyState{
+  min-height:220px;
+  border:1px solid #dce8e1;
+  border-radius:14px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  gap:7px;
+  color:#53655b;
+  padding:20px;
+  background:#fbfdfc;
+}
+.reportEmptyState[hidden]{display:none!important}
+.reportEmptyIcon{font-size:46px}
+.reportEmptyState b{font-size:18px;color:#176f43}
+.reportDetails{display:grid;gap:7px;margin-top:10px;max-height:190px;overflow:auto}
+.reportDetailRow{display:flex;justify-content:space-between;gap:14px;padding:9px 11px;border-radius:10px;background:#f2f8f4}
