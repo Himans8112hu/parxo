@@ -1,8 +1,4 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
-import { getStorage } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js";
-
+// PARXO Firebase configuration (first PARXO Web App)
 const firebaseConfig = {
   apiKey: "AIzaSyAlynGO8Jil2_Brm5mZjZUl6BRfT8s8fF8",
   authDomain: "parxo-3196a.firebaseapp.com",
@@ -13,10 +9,10 @@ const firebaseConfig = {
   measurementId: "G-JYSLD5RWEZ"
 };
 
-const app = initializeApp(firebaseConfig);
-
-export const db = getFirestore(app);
-export const auth = getAuth(app);
-export const storage = getStorage(app);
-
-export default app;
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+window.parxoFirebase = {
+  app: firebase.app(),
+  auth: firebase.auth(),
+  firestore: firebase.firestore(),
+  storage: firebase.storage()
+};

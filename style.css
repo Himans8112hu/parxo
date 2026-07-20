@@ -187,3 +187,6 @@ header{gap:12px}.headerActions{display:flex;align-items:center;gap:8px;flex-wrap
 @media(max-width:520px){
   .pickerFilters{display:grid;grid-template-columns:1fr 1fr}
 }
+
+/* Firebase Admin / Cloud Sync */
+.cloudAdminCard{display:grid;gap:8px;padding:14px;margin:10px 0;border:1px solid #cfe4d7;border-radius:14px;background:#f5fff8}.cloudAdminCard span[data-ok="1"]{color:#08783b}.cloudAdminCard span[data-ok="0"]{color:#b3261e}.adminLoginOverlay{position:fixed;inset:0;z-index:99999;background:rgba(10,25,17,.82);display:none;align-items:center;justify-content:center;padding:18px}.adminLoginBox{width:min(420px,100%);background:#fff;border-radius:18px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.35)}.adminLoginBox input{width:100%;box-sizing:border-box;margin:8px 0}.adminLoginBox button{width:100%;margin-top:8px}

@@ -1,5 +1,5 @@
-const CACHE='parxo-v17-restore-lux-venus';
-const FILES=['./','index.html','style.css','app.js','fixes.js','language.js','manifest.json','icon.svg','dp-lux-nitro-dynamic-long-trunk.png','dp-commander-outer-elastic.png','dp-rupa-jon-rn-white-vest.png','dp-essdee-flexi-trunks.png','dp-lux-cozi-xylo-333-gym-vest.png','dp-macho-sporto-smart-cut-brief.png','dp-lux-xylo-888-gym-vest.png','dp-macho-sporto-long-trunk.png','dp-lux-cozi-fine-long-plain.png','dp-dixcy-scott-replay-brief.png','dp-commander-inner-elastic.png','dp-young-india-glider-mini-trunk.png','dp-rupa-jon-amazing-panties.png','dp-young-india-premium-vest.png',
+const CACHE='parxo-v18-firebase-cloud';
+const FILES=['./','index.html','style.css','firebase-config.js','firestore-service.js','app.js','fixes.js','language.js','manifest.json','icon.svg','dp-lux-nitro-dynamic-long-trunk.png','dp-commander-outer-elastic.png','dp-rupa-jon-rn-white-vest.png','dp-essdee-flexi-trunks.png','dp-lux-cozi-xylo-333-gym-vest.png','dp-macho-sporto-smart-cut-brief.png','dp-lux-xylo-888-gym-vest.png','dp-macho-sporto-long-trunk.png','dp-lux-cozi-fine-long-plain.png','dp-dixcy-scott-replay-brief.png','dp-commander-inner-elastic.png','dp-young-india-glider-mini-trunk.png','dp-rupa-jon-amazing-panties.png','dp-young-india-premium-vest.png',
 
 'young-india-rib-drawer.jpg',
 

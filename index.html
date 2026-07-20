@@ -107,6 +107,7 @@
       <button id="exportData">डेटा बैकअप डाउनलोड करें (Manual/Cloud)</button>
       <label class="fileBtn">बैकअप वापस लाएँ<input id="importData" type="file" accept=".json" hidden /></label>
       <button onclick="listAutoBackups()">Local Auto-Backup देखें/Restore करें</button>
+      <div class="cloudAdminCard"><b>☁️ Firebase Admin</b><span id="cloudStatus">जाँच हो रही है…</span><button id="adminLogoutBtn" type="button">Admin Logout</button></div>
       <button id="setPinBtn">App Lock (PIN) सेट/हटाएँ</button>
       <p class="muted" style="margin:6px 0 14px">ध्यान दें: App Lock सिर्फ आसान झलक रोकने के लिए है, यह असली security नहीं है — ब्राउज़र data कोई भी देख सकता है। "Cloud Backup" का मतलब है डाउनलोड की गई फ़ाइल को आप खुद Google Drive/WhatsApp पर सुरक्षित रखें; अपने आप cloud sync नहीं होता क्योंकि इस app का कोई सर्वर नहीं है।</p>
       <button id="clearAll" class="danger">सारा डेटा मिटाएँ</button>
@@ -235,6 +236,17 @@
     </div>
   </dialog>
 
+  <div id="adminLoginOverlay" class="adminLoginOverlay">
+    <form id="adminLoginForm" class="adminLoginBox">
+      <h2>🔐 PARXO Admin Login</h2>
+      <p>Firebase Authentication में बनाया गया Admin email और password डालें।</p>
+      <input id="adminEmail" type="email" autocomplete="username" placeholder="Admin Email" required />
+      <input id="adminPassword" type="password" autocomplete="current-password" placeholder="Password" required />
+      <button class="primary" type="submit">Login करें</button>
+      <p id="adminLoginMessage" class="muted"></p>
+    </form>
+  </div>
+
   <div id="lockOverlay" class="lockOverlay">
     <div class="lockBox">
       <h2>🔒 PARXO लॉक है</h2>
@@ -243,6 +255,12 @@
     </div>
   </div>
 
+  <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-storage-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="firestore-service.js"></script>
   <script src="app.js"></script>
   <script src="fixes.js"></script>
   <script src="language.js"></script>
