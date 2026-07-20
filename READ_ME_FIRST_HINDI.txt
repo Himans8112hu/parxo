@@ -1,28 +1,23 @@
-PARXO FIREBASE PACKAGE — पहले यह पढ़ें
+PARXO FINAL FIRESTORE UPDATE
 
-यह ZIP आपकी पुरानी PARXO app की सभी files और images के साथ तैयार है।
-मुख्य बदलाव:
-1. Firebase Firestore cloud sync
-2. Firebase Email/Password Admin Login
-3. Firestore security rules
-4. पुराना local data पहली login पर cloud में upload
-5. सभी पुराने features और UI सुरक्षित
+इस ZIP में केवल बदली हुई files हैं। Images दोबारा upload नहीं करनी हैं।
 
-UPLOAD:
-GitHub repository में पुरानी files हटाकर इस ZIP के अंदर की सभी files upload/replace करें।
+GitHub repository के root में इन files को Replace/Upload करें:
+1. index.html
+2. app.js
+3. style.css
+4. firebase-config.js
+5. firestore-service.js
+6. sw.js
 
-FIREBASE में जरूरी 2 काम:
-A) Authentication > Sign-in method > Email/Password को Enable करें।
-B) Authentication > Users > Add user में अपना Admin email/password बनाएँ।
-
-SECURITY RULES:
-Firestore Database > Rules में firestore.rules की पूरी सामग्री paste करके Publish करें।
-Storage > Rules में storage.rules की पूरी सामग्री paste करके Publish करें।
-
-पहली बार app खोलें:
-Admin email/password डालें। अगर Firestore में data नहीं है तो इसी browser का पुराना PARXO data अपने-आप cloud में save होगा।
+Firebase Console में अलग से यह करें:
+A) Firestore Database > Rules में firestore.rules का पूरा code paste करके Publish करें।
+B) Storage > Rules में storage.rules का पूरा code paste करके Publish करें।
 
 महत्वपूर्ण:
-- firebase-config.js पहले PARXO Web App का config उपयोग करता है।
-- दूसरा “PARXO Web App” इस्तेमाल नहीं किया गया है।
-- localStorage अब offline cache और local backup के लिए रखा गया है; cloud master data Firestore है।
+- Login वही Firebase Authentication वाला Admin Email/Password है।
+- पहली सफल Login पर पुराने phone/browser का local data Firestore में upload होगा,
+  अगर Firestore का PARXO document खाली है।
+- उसके बाद दूसरे device में उसी Admin login से वही cloud data दिखाई देगा।
+- localStorage अब backup/offline cache के रूप में रहता है; मुख्य sync Firestore में होता है।
+- Upload के बाद GitHub Pages को 2-5 मिनट दें और app को एक बार बंद करके दोबारा खोलें।
